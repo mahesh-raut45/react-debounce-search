@@ -8,8 +8,10 @@ const useDebounce = (value, delay) => {
       setDebounceValue(value);
     }, delay);
 
+    console.log("timeout cleared", value);
     return () => clearTimeout(timeout);
   }, [value, delay]);
+  console.log('debounceValue>>>', debounceValue);
   return debounceValue;
 }
 

@@ -8,25 +8,22 @@ const SearchInput = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const debounceSearch = useDebounce(searchTerm, 500);
+  const debounceSearch = useDebounce(searchTerm, 3000);
 
   // fetch users
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const res = await fetch("https://jsonplaceholder.typicode.com/users");
+        const res = await fetch("https://jsonplaceholder.typicode.com/uses");
         if (!res.ok) {
-          console.log(res);
           throw new Error("Failed to load users");
         }
 
         const data = await res.json();
-        console.log("users>>>", data);
         setUsers(data);
         return data;
       } catch (error) {
-        console.log(error);
         setError(error);
       } finally {
         setLoading(false);
@@ -39,7 +36,7 @@ const SearchInput = () => {
     if (!debounceSearch.trim()) return users;
 
     return users.filter((user) =>
-      user.name.toLowerCase().includes(debounceSearch.toLocaleLowerCase()),
+      user.name.toLowerCase().includes(debounceSearch.toLowerCase()),
     );
   }, [debounceSearch, users]);
 
